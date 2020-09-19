@@ -10,7 +10,7 @@ part 'login_state.dart';
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   LoginBloc(this.loginRepository) : super(LoginInitial());
 
-  final LoginRepository loginRepository;
+  final AuthRepositoryImpl loginRepository;
 
   @override
   Stream<LoginState> mapEventToState(
@@ -24,7 +24,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       );
 
       try {
-        var result = await loginRepository.login(reqModel);
+        var result = await loginRepository.doLogin(reqModel);
         if (result.accessToken.isNotEmpty) {
           yield LoginSuccess(data: result);
         }
@@ -34,7 +34,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     }
     if (event is GetUserEvent) {
       yield GetUserLoading();
-      GetCurrentUser result = await loginRepository.getUser();
+      GetCurrentUser result = await loginRepository.getCurrentUser();
       print(result.email);
       yield GetUserLoaded(data: result);
     }

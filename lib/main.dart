@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Material App',
       home: BlocProvider<LoginBloc>(
-        create: (context) => LoginBloc(new LoginRepository()),
+        create: (context) => LoginBloc(new AuthRepositoryImpl()),
         child: LoginPage(),
       ),
     );

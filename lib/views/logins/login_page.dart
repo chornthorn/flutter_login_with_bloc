@@ -22,7 +22,7 @@ class _LoginPageState extends State<LoginPage> {
       ),
       body: BlocListener<LoginBloc, LoginState>(
         listenWhen: (previous, current) {
-          if (current is LoginSuccess || current is LoginFailure) {
+          if (current is LoginFailure || current is LoginSuccess) {
             Navigator.pop(context);
           }
           return true;
@@ -30,10 +30,24 @@ class _LoginPageState extends State<LoginPage> {
         listener: (context, state) {
           if (state is LoginLoading) {
             showDialog(
-                context: context,
-                child: new AlertDialog(
-                  title: new CircularProgressIndicator(),
-                ));
+              barrierDismissible: true,
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  content: Container(
+                    child: new Row(
+                      children: [
+                        CircularProgressIndicator(),
+                        Container(
+                          margin: EdgeInsets.only(left: 10),
+                          child: Text("Loading ..."),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            );
           }
           if (state is LoginFailure) {
             Scaffold.of(context).showSnackBar(

@@ -1,14 +1,21 @@
 import '../../models/models.dart';
 import 'index.dart';
 
-class LoginRepository {
-  AuthApi loginApi = AuthApi();
+abstract class AuthRepository {
+  Future<UserResModel> doLogin(UserReqModel reqModel);
+  Future<GetCurrentUser> getCurrentUser();
+}
 
-  Future<UserResModel> login(UserReqModel reqModel) async {
-    return await loginApi.login(reqModel);
+class AuthRepositoryImpl extends AuthRepository {
+  AuthApiImpl loginApi = AuthApiImpl();
+
+  @override
+  Future<UserResModel> doLogin(UserReqModel reqModel) async {
+    return await loginApi.doLogin(reqModel);
   }
 
-  Future<GetCurrentUser> getUser() async {
-    return await loginApi.getUser();
+  @override
+  Future<GetCurrentUser> getCurrentUser() async {
+    return await loginApi.getCurrentUser();
   }
 }
