@@ -1,5 +1,4 @@
-import 'package:data_repository/src/models/models.dart';
-
+import '../../models/models.dart';
 import 'index.dart';
 
 class LoginRepository {
