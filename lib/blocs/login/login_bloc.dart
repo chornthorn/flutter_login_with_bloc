@@ -32,5 +32,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         yield LoginFailure(e.toString());
       }
     }
+    if (event is GetUserEvent) {
+      yield GetUserLoading();
+      GetCurrentUser result = await loginRepository.getUser();
+      print(result.email);
+      yield GetUserLoaded(data: result);
+    }
   }
 }

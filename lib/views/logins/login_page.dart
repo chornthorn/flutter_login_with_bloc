@@ -73,6 +73,9 @@ class _LoginPageState extends State<LoginPage> {
                   BlocProvider.of<LoginBloc>(context).add(
                     Login(data),
                   );
+                  // BlocProvider.of<LoginBloc>(context).add(
+                  //   GetUserEvent(),
+                  // );
                 },
                 child: Text('Login'),
               ),

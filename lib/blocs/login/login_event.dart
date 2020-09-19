@@ -12,3 +12,9 @@ class Login extends LoginEvent {
 
   Login([this.data]);
 }
+
+class GetUserEvent extends LoginEvent {
+  final GetCurrentUser data;
+
+  GetUserEvent([this.data]);
+}

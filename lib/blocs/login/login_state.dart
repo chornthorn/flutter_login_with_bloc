@@ -22,3 +22,11 @@ class LoginSuccess extends LoginState {
 
   LoginSuccess({this.data});
 }
+
+class GetUserLoading extends LoginState {}
+
+class GetUserLoaded extends LoginState {
+  final GetCurrentUser data;
+
+  GetUserLoaded({this.data});
+}
