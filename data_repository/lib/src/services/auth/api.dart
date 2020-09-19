@@ -6,6 +6,7 @@ import '../../utils/utils.dart';
 abstract class AuthApi {
   Future<UserResModel> doLogin(UserReqModel reqModel);
   Future<GetCurrentUser> getCurrentUser();
+  Future<void> signOut();
 }
 
 class AuthApiImpl extends AuthApi {
@@ -27,5 +28,10 @@ class AuthApiImpl extends AuthApi {
     final currentUser = GetCurrentUser.fromJson(response);
     print(currentUser);
     return currentUser;
+  }
+
+  @override
+  Future<void> signOut() {
+    return null;
   }
 }

@@ -4,6 +4,7 @@ import 'index.dart';
 abstract class AuthRepository {
   Future<UserResModel> doLogin(UserReqModel reqModel);
   Future<GetCurrentUser> getCurrentUser();
+  Future<void> signOut();
 }
 
 class AuthRepositoryImpl extends AuthRepository {
@@ -17,5 +18,10 @@ class AuthRepositoryImpl extends AuthRepository {
   @override
   Future<GetCurrentUser> getCurrentUser() async {
     return await loginApi.getCurrentUser();
+  }
+
+  @override
+  Future<void> signOut() async {
+    return await loginApi.signOut();
   }
 }
