@@ -27,6 +27,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         var result = await loginRepository.doLogin(reqModel);
         if (result.accessToken.isNotEmpty) {
           yield LoginSuccess(data: result);
+          add(GetUserEvent());
         }
       } catch (e) {
         yield LoginFailure(e.toString());
@@ -36,7 +37,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       yield GetUserLoading();
       GetCurrentUser result = await loginRepository.getCurrentUser();
       print(result.email);
-      yield GetUserLoaded(data: result);
+      yield LoggedIn(data: result);
     }
   }
 }

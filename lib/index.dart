@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_todos_bloc/blocs/login/login_bloc.dart';
 import 'package:flutter_todos_bloc/views/logins/login_page.dart';
+import 'package:flutter_todos_bloc/views/logins/login_page_consume.dart';
 
 class MyApp extends StatelessWidget {
   @override
