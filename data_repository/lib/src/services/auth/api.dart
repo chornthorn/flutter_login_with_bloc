@@ -1,9 +1,9 @@
 import 'package:data_repository/src/models/auth/get_current_user.dart';
 import 'package:data_repository/src/models/auth/login/user_req_model.dart';
 import 'package:data_repository/src/models/auth/login/user_res_model.dart';
-import 'package:data_repository/src/networks/http.dart';
-import 'package:data_repository/src/networks/path.dart';
 import 'dart:convert';
+
+import 'package:data_repository/src/networks/networks.dart';
 
 class AuthApi {
   CustomHttp customHttp = new CustomHttp();
