@@ -1,6 +1,7 @@
 import 'dart:convert';
 import '../../networks/networks.dart';
 import '../../models/models.dart';
+import '../../utils/utils.dart';
 
 class AuthApi {
   CustomHttp customHttp = new CustomHttp();
