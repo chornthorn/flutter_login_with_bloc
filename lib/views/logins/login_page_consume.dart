@@ -2,6 +2,7 @@ import 'package:data_repository/data_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_todos_bloc/blocs/login/login_bloc.dart';
+import 'package:flutter_todos_bloc/widgets/loading/loading_widget.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key key}) : super(key: key);
@@ -13,7 +14,6 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   TextEditingController userNameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,32 +22,16 @@ class _LoginPageState extends State<LoginPage> {
       ),
       body: BlocConsumer<LoginBloc, LoginState>(
         listenWhen: (previous, current) {
-          if (current is LoginFailure || current is LoginSuccess) {
+          if (current is LoginFailure ||
+              current is LoginSuccess ||
+              current is GetUserLoaded) {
             Navigator.pop(context);
           }
           return true;
         },
         listener: (context, state) {
-          if (state is LoginLoading) {
-            showDialog(
-              barrierDismissible: true,
-              context: context,
-              builder: (BuildContext context) {
-                return AlertDialog(
-                  content: Container(
-                    child: new Row(
-                      children: [
-                        CircularProgressIndicator(),
-                        Container(
-                          margin: EdgeInsets.only(left: 10),
-                          child: Text("Loading ..."),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              },
-            );
+          if (state is LoginLoading || state is GetUserLoading) {
+            showDialogWidget(context);
           }
           if (state is LoginFailure) {
             Scaffold.of(context).showSnackBar(
@@ -67,40 +51,57 @@ class _LoginPageState extends State<LoginPage> {
           }
         },
         builder: (context, state) {
-          if (state is LoggedIn) {
+          if (state is GetUserLoaded) {
             return Container(
               padding: EdgeInsets.all(20),
-              child: Text(state.data.email),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Text(state.data.firstName),
+                      SizedBox(width: 10),
+                      Text(state.data.lastName),
+                      Spacer(),
+                      Text(state.data.email),
+                    ],
+                  ),
+                ],
+              ),
             );
           }
-          return Container(
-            padding: EdgeInsets.all(20),
-            child: Column(
-              children: [
-                TextField(
-                  controller: userNameController,
-                  decoration: InputDecoration(hintText: 'username'),
-                ),
-                TextField(
-                  controller: passwordController,
-                  decoration: InputDecoration(hintText: 'password'),
-                ),
-                Container(height: 20),
-                FlatButton(
-                  onPressed: () {
-                    UserReqModel data = UserReqModel();
-                    data.email = userNameController.text;
-                    data.password = passwordController.text;
-                    BlocProvider.of<LoginBloc>(context).add(
-                      Login(data),
-                    );
-                  },
-                  child: Text('Login'),
-                ),
-              ],
-            ),
-          );
+          return _buildFormLogin(context);
         },
+      ),
+    );
+  }
+
+  Widget _buildFormLogin(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(20),
+      child: Column(
+        children: [
+          TextField(
+            controller: userNameController,
+            decoration: InputDecoration(hintText: 'username'),
+          ),
+          TextField(
+            controller: passwordController,
+            decoration: InputDecoration(hintText: 'password'),
+          ),
+          Container(height: 20),
+          FlatButton(
+            onPressed: () {
+              UserReqModel data = UserReqModel();
+              data.email = userNameController.text;
+              data.password = passwordController.text;
+              BlocProvider.of<LoginBloc>(context).add(
+                Login(data),
+              );
+            },
+            child: Text('Login'),
+          ),
+        ],
       ),
     );
   }

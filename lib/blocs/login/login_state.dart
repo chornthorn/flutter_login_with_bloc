@@ -30,9 +30,3 @@ class GetUserLoaded extends LoginState {
 
   GetUserLoaded({this.data});
 }
-
-class LoggedIn extends LoginState {
-  final GetCurrentUser data;
-
-  LoggedIn({this.data});
-}
